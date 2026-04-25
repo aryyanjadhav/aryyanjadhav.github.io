@@ -11,8 +11,10 @@
   --container-color: #ffffff;
   --border-color: hsl(207, 4%, 88%);
 
-  /* Font */
-  --body-font: '--body-font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"';
+  /* Font - Strictly Apple SF System Stack */
+  --body-font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  
+  /* Font Sizes */
   --biggest-font-size: 2rem;
   --h1-font-size: 1.5rem;
   --h2-font-size: 1.25rem;
@@ -790,4 +792,22 @@ body.dark-theme .experience__badge {
     --small-font-size: 1.05rem;
   }
   .container { max-width: 2000px; }
+}
+
+/* Custom Swiper Scrollbar */
+.swiper-scrollbar {
+  background-color: var(--border-color) !important;
+  height: 8px !important;
+  border-radius: 4px;
+  position: relative;
+  margin-top: 2rem;
+  cursor: pointer;
+}
+.swiper-scrollbar-drag {
+  background-color: var(--first-color) !important;
+  border-radius: 4px;
+  cursor: grab;
+}
+.swiper-scrollbar-drag:active {
+  cursor: grabbing;
 }

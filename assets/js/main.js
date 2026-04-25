@@ -83,12 +83,12 @@ skillBars.forEach(bar => skillObserver.observe(bar));
    SWIPER — PROJECTS SLIDER
 ============================= */
 const swiper = new Swiper('.swiper', {
-  loop: true,
+  loop: false, // Scrollbars work better when loop is false
   spaceBetween: 24,
   grabCursor: true,
-  pagination: {
-    el: '.swiper-pagination',
-    clickable: true,
+  scrollbar: {
+    el: '.swiper-scrollbar',
+    draggable: true,
   },
   breakpoints: {
     576:  { slidesPerView: 1 },
@@ -113,100 +113,98 @@ document.querySelectorAll('.project__card').forEach(card => {
 });
 
 /* =============================
-   THREE.JS — 3D HERO ELEMENT
-   Neural network / brain motif
-   fitting for an AI engineer
+   THREE.JS — 3D NEURAL NETWORK
 ============================= */
 (function initThreeJS() {
   const container = document.getElementById('home-canvas');
   if (!container || typeof THREE === 'undefined') return;
 
-  const W = container.clientWidth  || 400;
+  const W = container.clientWidth || 400;
   const H = container.clientHeight || 350;
 
-  const scene    = new THREE.Scene();
-  const camera   = new THREE.PerspectiveCamera(60, W / H, 0.1, 100);
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, W / H, 0.1, 100);
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 
   renderer.setSize(W, H);
   renderer.setPixelRatio(window.devicePixelRatio);
   container.appendChild(renderer.domElement);
 
-  /* ---- Main shape: Icosahedron (brain-like complexity) ---- */
-  const geometry = new THREE.IcosahedronGeometry(1.4, 2);
-  const material = new THREE.MeshStandardMaterial({
+  // Group to hold the whole network so we can spin it
+  const networkGroup = new THREE.Group();
+  scene.add(networkGroup);
+
+  /* ---- Build the Neural Network ---- */
+  const nodeMaterial = new THREE.MeshStandardMaterial({
     color: 0x0077ff,
-    roughness: 0.1,
-    metalness: 0.9,
-    wireframe: false,
+    roughness: 0.2,
+    metalness: 0.8,
+    emissive: 0x0044aa,
+    emissiveIntensity: 0.5
   });
-  const mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
+  
+  const nodeGeometry = new THREE.SphereGeometry(0.15, 16, 16);
+  const layers = [4, 6, 6, 4]; // Nodes per layer
+  const layerSpacing = 1.2;
+  const nodeSpacing = 0.8;
+  const allNodes = [];
 
-  /* ---- Wireframe overlay ---- */
-  const wireMat = new THREE.MeshBasicMaterial({
-    color: 0x66aaff,
-    wireframe: true,
-    transparent: true,
-    opacity: 0.18,
+  // Create Nodes
+  layers.forEach((nodeCount, layerIndex) => {
+    const layerNodes = [];
+    const xPos = (layerIndex - (layers.length - 1) / 2) * layerSpacing;
+    
+    for (let i = 0; i < nodeCount; i++) {
+      const yPos = (i - (nodeCount - 1) / 2) * nodeSpacing;
+      
+      const node = new THREE.Mesh(nodeGeometry, nodeMaterial);
+      node.position.set(xPos, yPos, (Math.random() - 0.5) * 0.5); // Slight 3D stagger
+      networkGroup.add(node);
+      layerNodes.push(node);
+    }
+    allNodes.push(layerNodes);
   });
-  const wireMesh = new THREE.Mesh(geometry, wireMat);
-  wireMesh.scale.setScalar(1.02);
-  scene.add(wireMesh);
 
-  /* ---- Floating particle nodes (neural network dots) ---- */
-  const particleCount = 120;
-  const pPositions    = new Float32Array(particleCount * 3);
-  const velocities    = [];
+  // Create Synapses (Lines)
+  const lineMaterial = new THREE.LineBasicMaterial({ 
+    color: 0x66aaff, 
+    transparent: true, 
+    opacity: 0.3 
+  });
 
-  for (let i = 0; i < particleCount; i++) {
-    const theta = Math.random() * Math.PI * 2;
-    const phi   = Math.acos(2 * Math.random() - 1);
-    const r     = 2.2 + Math.random() * 1.2;
+  for (let l = 0; l < allNodes.length - 1; l++) {
+    const currentLayer = allNodes[l];
+    const nextLayer = allNodes[l + 1];
 
-    pPositions[i * 3]     = r * Math.sin(phi) * Math.cos(theta);
-    pPositions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-    pPositions[i * 3 + 2] = r * Math.cos(phi);
-
-    velocities.push({
-      x: (Math.random() - 0.5) * 0.004,
-      y: (Math.random() - 0.5) * 0.004,
-      z: (Math.random() - 0.5) * 0.004,
+    currentLayer.forEach(nodeA => {
+      nextLayer.forEach(nodeB => {
+        const points = [nodeA.position, nodeB.position];
+        const lineGeo = new THREE.BufferGeometry().setFromPoints(points);
+        const line = new THREE.Line(lineGeo, lineMaterial);
+        networkGroup.add(line);
+      });
     });
   }
 
-  const particleGeo = new THREE.BufferGeometry();
-  particleGeo.setAttribute('position', new THREE.BufferAttribute(pPositions.slice(), 3));
-  const particleMat = new THREE.PointsMaterial({
-    color: 0x66ccff,
-    size: 0.06,
-    transparent: true,
-    opacity: 0.9,
-  });
-  const particles = new THREE.Points(particleGeo, particleMat);
-  scene.add(particles);
-
   /* ---- Lighting ---- */
-  scene.add(new THREE.AmbientLight(0xffffff, 0.4));
-
-  const light1 = new THREE.PointLight(0x0099ff, 3, 20);
+  scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+  const light1 = new THREE.PointLight(0x0099ff, 2, 20);
   light1.position.set(5, 5, 5);
   scene.add(light1);
-
-  const light2 = new THREE.PointLight(0xff6600, 1.5, 20);
+  
+  const light2 = new THREE.PointLight(0xff6600, 1, 20); // Warm accent
   light2.position.set(-5, -3, -5);
   scene.add(light2);
 
- camera.position.z = 5;
+  camera.position.z = 5;
 
-  /* ---- ADDED: Orbit Controls for 3D Dragging ---- */
+  /* ---- ORBIT CONTROLS (The Magic Interactivity) ---- */
   const controls = new THREE.OrbitControls(camera, renderer.domElement);
-  controls.enableDamping = true; // Adds smooth deceleration
+  controls.enableDamping = true; 
   controls.dampingFactor = 0.05;
-  controls.enableZoom = false;   // Disabled so it doesn't interrupt page scrolling
-  controls.autoRotate = true;    // Rotates slowly when the user isn't touching it
-  controls.autoRotateSpeed = 1.0;
-
+  controls.enableZoom = false; // Prevents page scroll getting stuck
+  controls.autoRotate = true;  // Spins on its own
+  controls.autoRotateSpeed = 1.2;
 
   /* ---- Animation loop ---- */
   let frame = 0;
@@ -214,48 +212,19 @@ document.querySelectorAll('.project__card').forEach(card => {
     requestAnimationFrame(animate);
     frame++;
 
-    // REQUIRED: Update controls for damping and auto-rotation
+    // Pulse the glowing nodes
+    nodeMaterial.emissiveIntensity = 0.5 + Math.sin(frame * 0.05) * 0.3;
+
+    // Required for smooth damping and auto-rotation
     controls.update();
-
-    // Smooth mouse follow
-    currentX += (targetX - currentX) * 0.05;
-    currentY += (targetY - currentY) * 0.05;
-
-    mesh.rotation.y    += 0.004 + currentX * 0.006;
-    mesh.rotation.x    += 0.002 + currentY * 0.003;
-    wireMesh.rotation.y = mesh.rotation.y;
-    wireMesh.rotation.x = mesh.rotation.x;
-
-    // Animate particles
-    const pos = particleGeo.attributes.position.array;
-    for (let i = 0; i < particleCount; i++) {
-      pos[i * 3]     += velocities[i].x;
-      pos[i * 3 + 1] += velocities[i].y;
-      pos[i * 3 + 2] += velocities[i].z;
-
-      // Bounce back if too far
-      const dist = Math.sqrt(
-        pos[i*3]**2 + pos[i*3+1]**2 + pos[i*3+2]**2
-      );
-      if (dist > 4.5 || dist < 2) {
-        velocities[i].x *= -1;
-        velocities[i].y *= -1;
-        velocities[i].z *= -1;
-      }
-    }
-    particleGeo.attributes.position.needsUpdate = true;
-
-    // Pulse the main mesh scale slightly
-    const pulse = 1 + Math.sin(frame * 0.03) * 0.015;
-    mesh.scale.setScalar(pulse);
 
     renderer.render(scene, camera);
   }
   animate();
 
-  /* ---- Responsive resize (all screens including TV) ---- */
+  /* ---- Responsive resize ---- */
   window.addEventListener('resize', () => {
-    const newW = container.clientWidth  || 400;
+    const newW = container.clientWidth || 400;
     const newH = container.clientHeight || 350;
     camera.aspect = newW / newH;
     camera.updateProjectionMatrix();
