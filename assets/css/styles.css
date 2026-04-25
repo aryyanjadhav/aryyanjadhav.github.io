@@ -328,8 +328,6 @@ img { max-width: 100%; display: block; }
   padding: 1.25rem;
   border-radius: 0.75rem;
   border: 1px solid var(--border-color);
-  max-height: 280px; /* Scrollable if it gets too long */
-  overflow-y: auto;
 }
 
 .education__modules-list {

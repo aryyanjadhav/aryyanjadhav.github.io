@@ -293,7 +293,8 @@ sr.reveal('.contact__form',          { origin: 'bottom' });
 /* =============================
    EMAILJS CONTACT FORM
 ============================= */
-emailjs.init('v3G--6Pdwv-v5hqvm'); // ← Replace with your EmailJS public key
+// 1. Paste YOUR Public Key here
+emailjs.init('v3G--6Pdwv-v5hqvm'); 
 
 const contactForm    = document.getElementById('contact-form');
 const contactMessage = document.getElementById('contact-message');
@@ -301,7 +302,8 @@ const contactMessage = document.getElementById('contact-message');
 contactForm?.addEventListener('submit', (e) => {
   e.preventDefault();
 
-  emailjs.sendForm('service_l7atzep', 'template_rgcvaag', contactForm)
+  // 2. Paste YOUR Service ID and Template ID here
+  emailjs.sendForm('service_fsbk9nh', 'template_89ru57u', contactForm)
     .then(() => {
       contactMessage.textContent  = '✅ Message sent! I\'ll reply soon.';
       contactMessage.style.color  = 'green';
