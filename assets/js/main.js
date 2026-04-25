@@ -197,22 +197,25 @@ document.querySelectorAll('.project__card').forEach(card => {
   light2.position.set(-5, -3, -5);
   scene.add(light2);
 
-  camera.position.z = 5;
+ camera.position.z = 5;
 
-  /* ---- Mouse interaction ---- */
-  let targetX = 0, targetY = 0;
-  let currentX = 0, currentY = 0;
+  /* ---- ADDED: Orbit Controls for 3D Dragging ---- */
+  const controls = new THREE.OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true; // Adds smooth deceleration
+  controls.dampingFactor = 0.05;
+  controls.enableZoom = false;   // Disabled so it doesn't interrupt page scrolling
+  controls.autoRotate = true;    // Rotates slowly when the user isn't touching it
+  controls.autoRotateSpeed = 1.0;
 
-  document.addEventListener('mousemove', (e) => {
-    targetX = (e.clientX / window.innerWidth  - 0.5) * 2;
-    targetY = (e.clientY / window.innerHeight - 0.5) * 2;
-  });
 
   /* ---- Animation loop ---- */
   let frame = 0;
   function animate() {
     requestAnimationFrame(animate);
     frame++;
+
+    // REQUIRED: Update controls for damping and auto-rotation
+    controls.update();
 
     // Smooth mouse follow
     currentX += (targetX - currentX) * 0.05;
