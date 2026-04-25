@@ -290,6 +290,19 @@ body:not(.dark-theme) .header {
   gap: .5rem;
   margin-bottom: 1.5rem;
 }
+
+/* Adds breathing room above and below the blue stat numbers */
+.about__title {
+  margin-top: 0.75rem;    /* Space between the icon and the number */
+  margin-bottom: 0.5rem;  /* Space between the number and the subtitle */
+}
+
+/* Optional: Make the icons a tiny bit bigger so they anchor the block better */
+.about__icon {
+  font-size: 1.5rem; 
+  color: var(--title-color); /* Keeps them matching your premium theme */
+}
+
 .lang__badge {
   background-color: var(--container-color);
   border: 1px solid var(--border-color);
@@ -1013,4 +1026,8 @@ textarea.contact__input {
     grid-template-columns: repeat(2, 1fr) !important;
     column-gap: 1.5rem !important;
   }
+}
+
+.about__title {
+  color: var(--first-color);
 }
