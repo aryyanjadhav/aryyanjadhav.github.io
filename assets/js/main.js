@@ -74,19 +74,7 @@ function scrollUp() {
 }
 window.addEventListener('scroll', scrollUp);
 
-/* =============================
-   SKILL BARS ANIMATION
-============================= */
-const skillBars = document.querySelectorAll('.skills__bar');
-const skillObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.style.width = entry.target.dataset.percent + '%';
-      skillObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.3 });
-skillBars.forEach(bar => skillObserver.observe(bar));
+
 
 /* =============================
    SWIPER — PROJECTS SLIDER
@@ -291,8 +279,7 @@ sr.reveal('.section__subtitle',      { delay: 100 });
 sr.reveal('.about__img',             { origin: 'left' });
 sr.reveal('.about__data',            { origin: 'right' });
 sr.reveal('.about__edu-item',        { interval: 100 });
-sr.reveal('.skills__group',          { interval: 150 });
-sr.reveal('.skills__icon-item',      { interval: 50 });
+sr.reveal('.skills__card', { interval: 150 });
 sr.reveal('.experience__item',       { interval: 150, origin: 'left' });
 // Add this inside your ScrollReveal section
 sr.reveal('.project__card', { interval: 150 });

@@ -384,74 +384,74 @@ body:not(.dark-theme) .header {
 }
 
 /* ===========================
-   SKILLS
+   SKILLS (Categorized Cards)
 =========================== */
-.skills__container { row-gap: 2.5rem; margin-bottom: 3rem; }
-.skills__group-title {
-  font-size: var(--h3-font-size);
-  margin-bottom: 1.5rem;
-  color: var(--first-color);
-  display: flex;
-  align-items: center;
-  column-gap: .5rem;
-}
-.skills__item { margin-bottom: 1.25rem; }
-.skills__name {
-  display: flex;
-  justify-content: space-between;
-  font-size: var(--small-font-size);
-  font-weight: var(--font-medium);
-  margin-bottom: .5rem;
-}
-.skills__percent { color: var(--first-color); }
-.skills__bar-bg {
-  height: 6px;
-  background-color: var(--border-color);
-  border-radius: 10px;
-  overflow: hidden;
-}
-.skills__bar {
-  height: 100%;
-  background: linear-gradient(90deg, var(--first-color), hsl(207, 90%, 70%));
-  border-radius: 10px;
-  width: 0;
-  transition: width 1.5s ease;
+.skills__container {
+  display: grid;
+  gap: 1.5rem;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
-/* Tech icon pills */
-.skills__icons {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 2rem;
+@media screen and (min-width: 768px) {
+  .skills__container {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
-.skills__icon-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  row-gap: .4rem;
+
+.skills__card {
   background-color: var(--container-color);
   border: 1px solid var(--border-color);
-  border-radius: .75rem;
-  padding: 1rem .875rem;
-  width: 80px;
-  cursor: default;
-  transition: border-color .3s, transform .3s;
+  border-radius: 1rem;
+  padding: 2rem;
+  transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
 }
-.skills__icon-item:hover {
+
+.skills__card:hover {
   border-color: var(--first-color);
   transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0, 119, 255, 0.06);
 }
-.skills__icon-item i {
+
+.skills__header {
+  display: flex;
+  align-items: center;
+  column-gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.skills__icon {
   font-size: 1.75rem;
   color: var(--first-color);
 }
-.skills__icon-item span {
-  font-size: .65rem;
+
+.skills__title {
+  font-size: var(--h3-font-size);
+  font-weight: var(--font-semi-bold);
+  color: var(--title-color);
+}
+
+/* The Tag Pills */
+.skills__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.skills__tags span {
+  font-size: var(--small-font-size);
   font-weight: var(--font-medium);
   color: var(--text-color);
-  text-align: center;
+  background-color: var(--body-color);
+  border: 1px solid var(--border-color);
+  padding: 0.4rem 1rem;
+  border-radius: 2rem;
+  transition: border-color 0.3s, color 0.3s;
+}
+
+/* Subtle glow on the tags when hovering over the card */
+.skills__card:hover .skills__tags span {
+  border-color: rgba(0, 119, 255, 0.4);
 }
 
 /* ===========================
