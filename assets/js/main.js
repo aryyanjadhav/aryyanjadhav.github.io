@@ -113,7 +113,7 @@ document.querySelectorAll('.project__card').forEach(card => {
 });
 
 /* =============================
-   THREE.JS — 3D NEURAL NETWORK
+   THREE.JS — QUANTUM AI CORE
 ============================= */
 (function initThreeJS() {
   const container = document.getElementById('home-canvas');
@@ -130,81 +130,87 @@ document.querySelectorAll('.project__card').forEach(card => {
   renderer.setPixelRatio(window.devicePixelRatio);
   container.appendChild(renderer.domElement);
 
-  // Group to hold the whole network so we can spin it
-  const networkGroup = new THREE.Group();
-  scene.add(networkGroup);
+  // Group to hold the core structure
+  const coreGroup = new THREE.Group();
+  scene.add(coreGroup);
 
-  /* ---- Build the Neural Network ---- */
-  const nodeMaterial = new THREE.MeshStandardMaterial({
+  /* ---- Inner Matrix (The Brain) ---- */
+  const innerGeo = new THREE.IcosahedronGeometry(0.8, 1);
+  const innerMat = new THREE.MeshStandardMaterial({
     color: 0x0077ff,
-    roughness: 0.2,
-    metalness: 0.8,
-    emissive: 0x0044aa,
-    emissiveIntensity: 0.5
+    wireframe: true,
+    transparent: true,
+    opacity: 0.8
   });
+  const innerCore = new THREE.Mesh(innerGeo, innerMat);
+  coreGroup.add(innerCore);
+
+  /* ---- Orbital Data Rings ---- */
+  const rings = [];
+  const ringColors = [0x00aaff, 0x0055ff, 0x0033aa];
   
-  const nodeGeometry = new THREE.SphereGeometry(0.15, 16, 16);
-  const layers = [4, 6, 6, 4]; // Nodes per layer
-  const layerSpacing = 1.2;
-  const nodeSpacing = 0.8;
-  const allNodes = [];
-
-  // Create Nodes
-  layers.forEach((nodeCount, layerIndex) => {
-    const layerNodes = [];
-    const xPos = (layerIndex - (layers.length - 1) / 2) * layerSpacing;
-    
-    for (let i = 0; i < nodeCount; i++) {
-      const yPos = (i - (nodeCount - 1) / 2) * nodeSpacing;
-      
-      const node = new THREE.Mesh(nodeGeometry, nodeMaterial);
-      node.position.set(xPos, yPos, (Math.random() - 0.5) * 0.5); // Slight 3D stagger
-      networkGroup.add(node);
-      layerNodes.push(node);
-    }
-    allNodes.push(layerNodes);
-  });
-
-  // Create Synapses (Lines)
-  const lineMaterial = new THREE.LineBasicMaterial({ 
-    color: 0x66aaff, 
-    transparent: true, 
-    opacity: 0.3 
-  });
-
-  for (let l = 0; l < allNodes.length - 1; l++) {
-    const currentLayer = allNodes[l];
-    const nextLayer = allNodes[l + 1];
-
-    currentLayer.forEach(nodeA => {
-      nextLayer.forEach(nodeB => {
-        const points = [nodeA.position, nodeB.position];
-        const lineGeo = new THREE.BufferGeometry().setFromPoints(points);
-        const line = new THREE.Line(lineGeo, lineMaterial);
-        networkGroup.add(line);
-      });
+  for(let i = 0; i < 3; i++) {
+    const ringGeo = new THREE.TorusGeometry(1.4 + (i * 0.3), 0.02, 16, 100);
+    const ringMat = new THREE.MeshStandardMaterial({
+      color: ringColors[i],
+      emissive: ringColors[i],
+      emissiveIntensity: 0.6
     });
+    const ring = new THREE.Mesh(ringGeo, ringMat);
+    // Offset their starting rotations so they intersect beautifully
+    ring.rotation.x = Math.random() * Math.PI;
+    ring.rotation.y = Math.random() * Math.PI;
+    coreGroup.add(ring);
+    rings.push(ring);
   }
 
+  /* ---- Ambient Particle Cloud (Data Points) ---- */
+  const particleCount = 150;
+  const pGeo = new THREE.BufferGeometry();
+  const pPos = new Float32Array(particleCount * 3);
+  const pVel = [];
+
+  for(let i = 0; i < particleCount; i++) {
+    pPos[i * 3]     = (Math.random() - 0.5) * 8; // X
+    pPos[i * 3 + 1] = (Math.random() - 0.5) * 8; // Y
+    pPos[i * 3 + 2] = (Math.random() - 0.5) * 8; // Z
+    
+    pVel.push({
+      x: (Math.random() - 0.5) * 0.01,
+      y: (Math.random() - 0.5) * 0.01,
+      z: (Math.random() - 0.5) * 0.01
+    });
+  }
+  
+  pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+  const pMat = new THREE.PointsMaterial({
+    color: 0x66ccff,
+    size: 0.05,
+    transparent: true,
+    opacity: 0.7
+  });
+  const particles = new THREE.Points(pGeo, pMat);
+  scene.add(particles);
+
   /* ---- Lighting ---- */
-  scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+  scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+  
   const light1 = new THREE.PointLight(0x0099ff, 2, 20);
   light1.position.set(5, 5, 5);
   scene.add(light1);
-  
-  const light2 = new THREE.PointLight(0xff6600, 1, 20); // Warm accent
+
+  const light2 = new THREE.PointLight(0x00ffff, 1, 20);
   light2.position.set(-5, -3, -5);
   scene.add(light2);
 
   camera.position.z = 5;
 
-  /* ---- ORBIT CONTROLS (The Magic Interactivity) ---- */
+  /* ---- Orbit Controls ---- */
   const controls = new THREE.OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true; 
   controls.dampingFactor = 0.05;
-  controls.enableZoom = false; // Prevents page scroll getting stuck
-  controls.autoRotate = true;  // Spins on its own
-  controls.autoRotateSpeed = 1.2;
+  controls.enableZoom = false; 
+  controls.autoRotate = false; // We will handle rotation manually for more complex movement
 
   /* ---- Animation loop ---- */
   let frame = 0;
@@ -212,12 +218,38 @@ document.querySelectorAll('.project__card').forEach(card => {
     requestAnimationFrame(animate);
     frame++;
 
-    // Pulse the glowing nodes
-    nodeMaterial.emissiveIntensity = 0.5 + Math.sin(frame * 0.05) * 0.3;
+    // 1. Rotate the inner core matrix
+    innerCore.rotation.y += 0.005;
+    innerCore.rotation.x += 0.002;
 
-    // Required for smooth damping and auto-rotation
+    // 2. Pulse the inner core
+    const pulse = 1 + Math.sin(frame * 0.05) * 0.1;
+    innerCore.scale.setScalar(pulse);
+
+    // 3. Rotate the data rings on different axes
+    rings[0].rotation.x += 0.01;
+    rings[1].rotation.y -= 0.008;
+    rings[2].rotation.z += 0.012;
+
+    // 4. Slowly rotate the entire core group
+    coreGroup.rotation.y += 0.002;
+    coreGroup.rotation.z += 0.001;
+
+    // 5. Float the ambient data particles
+    const positions = pGeo.attributes.position.array;
+    for (let i = 0; i < particleCount; i++) {
+      positions[i * 3]     += pVel[i].x;
+      positions[i * 3 + 1] += pVel[i].y;
+      positions[i * 3 + 2] += pVel[i].z;
+
+      // Keep them enclosed in an invisible bounding box
+      if (Math.abs(positions[i * 3]) > 4) pVel[i].x *= -1;
+      if (Math.abs(positions[i * 3 + 1]) > 4) pVel[i].y *= -1;
+      if (Math.abs(positions[i * 3 + 2]) > 4) pVel[i].z *= -1;
+    }
+    pGeo.attributes.position.needsUpdate = true;
+
     controls.update();
-
     renderer.render(scene, camera);
   }
   animate();
@@ -238,22 +270,22 @@ document.querySelectorAll('.project__card').forEach(card => {
 const sr = ScrollReveal({
   origin: 'top',
   distance: '60px',
-  duration: 2500,
-  delay: 300,
+  duration: 1000, /* Sped up from 2500ms to 1000ms */
+  delay: 100,     /* Reduced delay for snappier loading */
   reset: false,
 });
 
 sr.reveal('.home__data',             { origin: 'left' });
-sr.reveal('.home__3d',               { origin: 'right', delay: 500 });
+sr.reveal('.home__3d',               { origin: 'right', delay: 200 });
 sr.reveal('.section__title');
-sr.reveal('.section__subtitle',      { delay: 200 });
+sr.reveal('.section__subtitle',      { delay: 100 });
 sr.reveal('.about__img',             { origin: 'left' });
 sr.reveal('.about__data',            { origin: 'right' });
-sr.reveal('.about__edu-item',        { interval: 150 });
-sr.reveal('.skills__group',          { interval: 200 });
-sr.reveal('.skills__icon-item',      { interval: 80 });
-sr.reveal('.experience__item',       { interval: 200, origin: 'left' });
-sr.reveal('.swiper-slide',           { interval: 100 });
+sr.reveal('.about__edu-item',        { interval: 100 });
+sr.reveal('.skills__group',          { interval: 150 });
+sr.reveal('.skills__icon-item',      { interval: 50 });
+sr.reveal('.experience__item',       { interval: 150, origin: 'left' });
+/* NOTE: .swiper-slide has been intentionally removed from here so they don't disappear */
 sr.reveal('.awards__card',           { origin: 'bottom' });
 sr.reveal('.contact__card',          { interval: 100 });
 sr.reveal('.contact__form',          { origin: 'bottom' });
