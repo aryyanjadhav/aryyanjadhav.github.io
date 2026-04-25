@@ -477,10 +477,9 @@
       <h2 class="section__title">Contact Me</h2>
       <span class="section__subtitle">Get In Touch</span>
 
-      <div class="contact__container container grid">
-
+      <div class="contact__container container">
+        
         <div class="contact__info">
-          
           <a href="mailto:aryanjadhav.de@gmail.com" class="contact__card">
             <i class="bx bx-envelope contact__card-icon"></i>
             <h3 class="contact__card-title">Send an Email</h3>
@@ -500,26 +499,26 @@
             <i class="bx bxl-linkedin contact__card-icon"></i>
             <h3 class="contact__card-title">LinkedIn Network</h3>
           </a>
-          
-        </div>
-          </div>
         </div>
 
-        <form class="contact__form" id="contact-form">
+        <form action="" class="contact__form">
           <div class="contact__form-group">
-            <input type="text"  name="user_name"    placeholder="Your Name"  class="contact__input" required>
-            <input type="email" name="user_email"   placeholder="Your Email" class="contact__input" required>
+            <input type="text" placeholder="Your Name" class="contact__input" required>
+            <input type="email" placeholder="Your Email" class="contact__input" required>
           </div>
-          <input type="text"    name="user_subject" placeholder="Subject"    class="contact__input" required>
-          <textarea             name="user_message" placeholder="Your Message" class="contact__textarea" rows="7" required></textarea>
-          <p class="contact__message" id="contact-message"></p>
-          <button type="submit" class="button contact__button">
+          
+          <input type="text" placeholder="Subject" class="contact__input" required>
+          
+          <textarea cols="0" rows="10" placeholder="Your Message" class="contact__input" required></textarea>
+          
+          <button type="submit" class="button">
             Send Message <i class="bx bx-send"></i>
           </button>
         </form>
 
       </div>
     </section>
+
 
   </main>
 

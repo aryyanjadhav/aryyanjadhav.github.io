@@ -677,7 +677,9 @@ body.dark-theme .experience__badge {
 /* ===========================
    CONTACT
 =========================== */
+/* Base mobile layout (Stacks vertically) */
 .contact__container {
+  display: grid;
   row-gap: 3rem;
   padding-bottom: 3rem;
 }
@@ -687,7 +689,6 @@ body.dark-theme .experience__badge {
   row-gap: 1rem;
 }
 
-/* The Clickable Cards */
 .contact__card {
   background-color: var(--container-color);
   border: 1px solid var(--border-color);
@@ -718,7 +719,6 @@ body.dark-theme .experience__badge {
   margin-bottom: 0;
 }
 
-/* Form Layout */
 .contact__form {
   display: grid;
   row-gap: 1.5rem;
@@ -729,7 +729,6 @@ body.dark-theme .experience__badge {
   row-gap: 1.5rem;
 }
 
-/* Form Inputs (This is what got deleted!) */
 .contact__input {
   width: 100%;
   background-color: var(--container-color);
@@ -747,30 +746,25 @@ body.dark-theme .experience__badge {
   outline: none;
 }
 
-.contact__input::placeholder {
-  color: var(--text-color-light);
-  font-family: var(--body-font);
-}
-
-/* Make the message box taller */
 textarea.contact__input {
   height: 12rem;
   resize: none;
 }
 
-/* Desktop Layout: Cards on left, Form on right */
+/* DESKTOP LAYOUT (Forces side-by-side) */
 @media screen and (min-width: 768px) {
   .contact__container {
-    grid-template-columns: repeat(2, 1fr);
-    column-gap: 3rem;
+    grid-template-columns: 320px 1fr;
+    column-gap: 4rem;
+    align-items: flex-start;
   }
   
-  /* Puts Name and Email side-by-side */
   .contact__form-group {
     grid-template-columns: repeat(2, 1fr);
     column-gap: 1.5rem;
   }
 }
+
 
 /* ===========================
    FOOTER
@@ -1002,4 +996,21 @@ textarea.contact__input {
 @keyframes blink-caret {
   from, to { border-color: transparent }
   50% { border-color: var(--first-color) }
+}
+
+/* Desktop Layout: FORCE Cards on left, Form on right */
+@media screen and (min-width: 768px) {
+  /* Target the section and container directly to overpower other rules */
+  section.contact .contact__container {
+    display: grid !important;
+    grid-template-columns: 320px 1fr !important;
+    column-gap: 4rem !important;
+    align-items: flex-start !important;
+  }
+  
+  section.contact .contact__form-group {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    column-gap: 1.5rem !important;
+  }
 }
