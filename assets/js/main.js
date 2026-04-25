@@ -135,7 +135,7 @@ document.querySelectorAll('.project__card').forEach(card => {
   scene.add(coreGroup);
 
   /* ---- Inner Matrix (The Brain) ---- */
-  const innerGeo = new THREE.IcosahedronGeometry(0.8, 1);
+  const innerGeo = new THREE.IcosahedronGeometry(1.2, 1);
   const innerMat = new THREE.MeshStandardMaterial({
     color: 0x0077ff,
     wireframe: true,
