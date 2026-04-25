@@ -674,12 +674,20 @@ body.dark-theme .experience__badge {
   font-weight: var(--font-medium);
 }
 
-//* ===========================
+/* ===========================
    CONTACT
 =========================== */
-.contact__container { row-gap: 3rem; }
-.contact__info { display: grid; row-gap: 1rem; }
+.contact__container {
+  row-gap: 3rem;
+  padding-bottom: 3rem;
+}
 
+.contact__info {
+  display: grid;
+  row-gap: 1rem;
+}
+
+/* The Clickable Cards */
 .contact__card {
   background-color: var(--container-color);
   border: 1px solid var(--border-color);
@@ -689,12 +697,12 @@ body.dark-theme .experience__badge {
   align-items: center;
   column-gap: 1.25rem;
   transition: border-color .3s, transform .3s, box-shadow .3s;
-  color: var(--title-color); /* Ensures the text stays the correct color as a link */
+  color: var(--title-color);
 }
 
-.contact__card:hover { 
-  border-color: var(--first-color); 
-  transform: translateY(-4px); /* Adds the physical button lift effect */
+.contact__card:hover {
+  border-color: var(--first-color);
+  transform: translateY(-4px);
   box-shadow: 0 4px 20px rgba(0, 119, 255, 0.08);
 }
 
@@ -705,13 +713,64 @@ body.dark-theme .experience__badge {
 }
 
 .contact__card-title {
-  font-size: var(--normal-font-size); /* Increased slightly for better visual balance */
+  font-size: var(--normal-font-size);
   font-weight: var(--font-semi-bold);
-  margin-bottom: 0; /* Removed bottom margin since the sub-text is gone */
+  margin-bottom: 0;
 }
 
-.contact__form { display: grid; row-gap: 1rem; }
-/* Note: You can now safely delete the .contact__card-data rule from your CSS if you wish, as it is no longer used */
+/* Form Layout */
+.contact__form {
+  display: grid;
+  row-gap: 1.5rem;
+}
+
+.contact__form-group {
+  display: grid;
+  row-gap: 1.5rem;
+}
+
+/* Form Inputs (This is what got deleted!) */
+.contact__input {
+  width: 100%;
+  background-color: var(--container-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  padding: 1.2rem 1.5rem;
+  border-radius: 0.75rem;
+  font-family: var(--body-font);
+  font-size: var(--normal-font-size);
+  transition: border-color .3s;
+}
+
+.contact__input:focus {
+  border-color: var(--first-color);
+  outline: none;
+}
+
+.contact__input::placeholder {
+  color: var(--text-color-light);
+  font-family: var(--body-font);
+}
+
+/* Make the message box taller */
+textarea.contact__input {
+  height: 12rem;
+  resize: none;
+}
+
+/* Desktop Layout: Cards on left, Form on right */
+@media screen and (min-width: 768px) {
+  .contact__container {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 3rem;
+  }
+  
+  /* Puts Name and Email side-by-side */
+  .contact__form-group {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 1.5rem;
+  }
+}
 
 /* ===========================
    FOOTER
