@@ -1,4 +1,13 @@
 /* =============================
+   DEVELOPER EASTER EGG
+============================= */
+console.log(
+  "%c🤖 System Initialized: Aryan's Portfolio%c\n\nLooking under the hood? I build Spiking Neural Networks, autonomous navigation systems, and clean code. Let's build something great together. \n\nReach out: aryanjadhav.de@gmail.com",
+  "color: #AF52DE; font-size: 16px; font-weight: bold; font-family: -apple-system, sans-serif;",
+  "color: inherit; font-size: 12px; font-family: -apple-system, sans-serif;"
+);
+
+/* =============================
    DARK / LIGHT THEME
 ============================= */
 const themeButton = document.getElementById('theme-button');
@@ -285,6 +294,8 @@ sr.reveal('.about__edu-item',        { interval: 100 });
 sr.reveal('.skills__group',          { interval: 150 });
 sr.reveal('.skills__icon-item',      { interval: 50 });
 sr.reveal('.experience__item',       { interval: 150, origin: 'left' });
+// Add this inside your ScrollReveal section
+sr.reveal('.project__card', { interval: 150 });
 /* NOTE: .swiper-slide has been intentionally removed from here so they don't disappear */
 sr.reveal('.awards__card',           { origin: 'bottom' });
 sr.reveal('.contact__card',          { interval: 100 });

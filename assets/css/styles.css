@@ -30,6 +30,21 @@
   /* z index */
   --z-tooltip: 10;
   --z-fixed: 100;
+
+  /* ===========================
+   CUSTOM SCROLLBAR
+=========================== */
+::-webkit-scrollbar {
+  width: 8px;
+  background-color: var(--body-color);
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--text-color-light);
+  border-radius: 1rem;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--text-color);
+}
 }
 
 /* DARK THEME */
@@ -536,23 +551,18 @@ body.dark-theme .experience__badge {
 =========================== */
 .projects__container { overflow: hidden; padding-bottom: 3rem; }
 .project__card {
+  position: relative;
+  padding: 1.5rem;
   background-color: var(--container-color);
   border: 1px solid var(--border-color);
-  border-radius: 1.25rem;
-  padding: 1.5rem;
-  height: 100%;
-  box-shadow: 0 4px 24px rgba(0,0,0,.06);
-  transition: transform .3s, box-shadow .3s, border-color .3s;
-  transform-style: preserve-3d;
-  perspective: 1000px;
-  cursor: pointer;
-  position: relative;
-  display: flex;
-  flex-direction: column;
+  border-radius: 1rem;
+  transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
 }
+
 .project__card:hover {
   border-color: var(--first-color);
-  box-shadow: 0 8px 32px rgba(0, 119, 255, .15);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0, 119, 255, 0.1);
 }
 
 /* Active / Live tag */
@@ -876,8 +886,10 @@ body.dark-theme .experience__badge {
 /* ===========================
    CUSTOM BRANDING
 =========================== */
-/* Premium Gradient for the Hero Name */
-.home__name {
+/* Premium Gradient for Hero Name, Section Titles, and Project Titles */
+.home__name,
+.section__title,
+.project__title a {
   background: linear-gradient(90deg, var(--title-color) 0%, var(--first-color) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -886,15 +898,9 @@ body.dark-theme .experience__badge {
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Nav Logo stays theme-adaptive black/white */
-.nav__logo {
-  color: var(--title-color) !important; 
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-/* The dot '.' becomes your native signature blue */
-.nav__logo span {
-  color: var(--first-color) !important; 
+/* Ensure the external link icon inside project titles keeps its blue color */
+.project__title a i {
+  -webkit-text-fill-color: var(--first-color);
 }
 
 
