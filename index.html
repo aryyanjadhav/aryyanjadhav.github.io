@@ -23,11 +23,11 @@
       <div class="nav__menu" id="nav-menu">
         <ul class="nav__list">
           <li><a href="#home"       class="nav__link">Home</a></li>
-          <li><a href="#about"      class="nav__link">About</a></li>
           <li><a href="#education"  class="nav__link">Education</a></li>
           <li><a href="#skills"     class="nav__link">Skills</a></li>
           <li><a href="#experience" class="nav__link">Experience</a></li>
           <li><a href="#projects"   class="nav__link">Projects</a></li>
+            <li><a href="#research" class="nav__link">Research</a></li>
           <li><a href="#patents"     class="nav__link">Patents</a></li>
           <li><a href="#contact"    class="nav__link">Contact</a></li>
         </ul>
@@ -48,97 +48,113 @@
   <!--========== MAIN ==========-->
   <main class="main">
 
-    <!--===== HOME =====-->
-    <section class="home section" id="home">
-      <div class="home__container container grid">
+<!--===== HOME =====-->
+<section class="home section" id="home">
 
-        <div class="home__data">
-          <p class="home__greeting">Hello, I'm</p>
-          <h1 class="home__name">Aryan Gautam Jadhav</h1>
-          <h3 class="home__title">AI &amp; Machine Learning Engineer</h3>
-          <p class="home__description">
-            MSc. Artificial Intelligence &amp; Robotics student at Hochschule Hof, Germany.
-            I build intelligent systems — from Spiking Neural Networks to autonomous robots.
-          </p>
-          <div class="home__buttons">
-            <a href="#projects" class="button">View Projects</a>
-            <a href="#contact"  class="button button--ghost">Hire Me</a>
-            <a href="assets/Aryan_Gautam_Jadhav_Resume.pdf" download class="button">
-              Download CV <i class="bx bx-download"></i>
-            </a>
-          </div>
-          
-          <div class="home__social">
-            <a href="https://github.com/aryyanjadhav" target="_blank" class="home__social-link" title="GitHub">
-              <i class="bx bxl-github"></i>
-            </a>
-            <a href="mailto:aryanjadhav.de@gmail.com" class="home__social-link" title="Email">
-              <i class="bx bx-envelope"></i>
-            </a>
-            <a href="https://www.linkedin.com/in/aryyanjadhav" target="_blank" class="home__social-link" title="LinkedIn">
-              <i class="bx bxl-linkedin"></i>
-            </a>
-          </div>
+  <!-- ADDED: AI Playable Neural Artwork Canvas -->
+  <canvas id="ai-neural-canvas" class="ai-neural-canvas"></canvas>
+
+  <div class="home__container container grid" style="position: relative; z-index: 1;">
+
+    <!-- Left -->
+    <div class="home__data">
+      <p class="home__greeting">Hello, I'm</p>
+      <h1 class="home__name">Aryan Gautam Jadhav</h1>
+
+      <h3 class="home__title">
+        AI &amp; Machine Learning Engineer
+      </h3>
+
+      <p class="home__description">
+        M.Sc. Artificial Intelligence & Robotics student at Hochschule Hof, Germany,
+        with professional experience developing production AI systems, LLM-powered
+        applications, computer vision solutions, and scalable machine learning
+        pipelines. My research interests include Neuromorphic Computing,
+        Explainable AI, Generative AI, Intelligent Robotics, and Computer Vision,
+        with a focus on building efficient AI systems for real-world applications.
+      </p>
+
+      <!-- Stats -->
+      <div class="about__info">
+
+        <div class="about__box">
+          <i class="bx bx-award about__icon"></i>
+          <h3 class="about__title">7+ Advanced</h3>
+          <span class="about__subtitle">AI & ML Deployments</span>
         </div>
 
-        <!-- 3D element -->
-        <div class="home__3d" id="home-canvas"></div>
-
-      </div>
-    </section>
-
-    <!--===== ABOUT =====-->
-    <section class="about section" id="about">
-      <h2 class="section__title">About Me</h2>
-      <span class="section__subtitle">My Introduction</span>
-
-      <div class="about__container container grid">
-        <img src="assets/img/projects/IMG_20231029_105527.jpg" alt="Aryan Gautam Jadhav" class="about__img">
-
-        <div class="about__data">
-          <p class="about__description">
-            I'm an AI &amp; Machine Learning Engineer with a background in Mechanical Engineering
-            (Honours in Robotics) from Savitribai Phule Pune University. Currently pursuing my 
-            <strong>MSc. in Artificial Intelligence &amp; Robotics</strong> at Hochschule Hof, Germany.
-            I specialize in deep learning, computer vision, and intelligent robotics systems.
-            Gold Medalist in Product Design &amp; Development at IIT Roorkee.
-          </p>
-
-          <div class="about__info">
-            
-            <div class="about__box">
-              <i class="bx bx-award about__icon"></i>
-              <h3 class="about__title">1+ Years</h3>
-              <span class="about__subtitle">Industrial Experience</span>
-            </div>
-
-            <div class="about__box">
-              <i class="bx bx-briefcase-alt about__icon"></i>
-              <h3 class="about__title">7+ Advanced</h3>
-              <span class="about__subtitle">AI & ML Deployments</span>
-            </div>
-
-            <div class="about__box">
-              <i class="bx bx-certification about__icon"></i>
-              <h3 class="about__title">1 Published</h3>
-              <span class="about__subtitle">Industry 4.0 Patent</span>
-            </div>
-
-          </div>
-
-        
-
-          <!-- Language badges -->
-          <div class="about__languages">
-            <span class="lang__badge">Marathi 🇮🇳</span>
-            <span class="lang__badge">Hindi 🇮🇳</span>
-            <span class="lang__badge">English C2 🇬🇧</span>
-            <span class="lang__badge">Deutsch B1 🇩🇪</span>
-          </div>
-
-        
+        <div class="about__box">
+          <i class="bx bx-briefcase-alt about__icon"></i>
+          <h3 class="about__title">3</h3>
+          <span class="about__subtitle">Research Papers</span>
         </div>
+
+        <div class="about__box">
+          <i class="bx bx-certification about__icon"></i>
+          <h3 class="about__title">1 Published</h3>
+          <span class="about__subtitle">Industry 4.0 Patent</span>
+        </div>
+
       </div>
+
+      <!-- Language badges -->
+      <div class="about__languages">
+        <span class="lang__badge">Marathi 🇮🇳</span>
+        <span class="lang__badge">Hindi 🇮🇳</span>
+        <span class="lang__badge">English C2 🇬🇧</span>
+        <span class="lang__badge">Deutsch B1 🇩🇪</span>
+      </div>
+
+      <!-- Buttons -->
+      <div class="home__buttons">
+        <a href="#projects" class="button">View Projects</a>
+
+        <a href="#contact" class="button button--ghost">
+          Hire Me
+        </a>
+
+        <a href="assets/Aryan_Gautam_Jadhav_Resume.pdf"
+           download
+           class="button">
+          Download CV
+          <i class="bx bx-download"></i>
+        </a>
+      </div>
+
+      <!-- Social -->
+      <div class="home__social">
+        <a href="https://github.com/aryyanjadhav"
+           target="_blank"
+           class="home__social-link"
+           title="GitHub">
+          <i class="bx bxl-github"></i>
+        </a>
+
+        <a href="mailto:aryanjadhav.de@gmail.com"
+           class="home__social-link"
+           title="Email">
+          <i class="bx bx-envelope"></i>
+        </a>
+
+        <a href="https://www.linkedin.com/in/aryyanjadhav"
+           target="_blank"
+           class="home__social-link"
+           title="LinkedIn">
+          <i class="bx bxl-linkedin"></i>
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Right -->
+      <div class="home__img">
+
+        <img
+            src="assets/img/projects/profile.jpg"
+            class="home__profile"
+            alt="Aryan Gautam Jadhav">
+      </div>
+  </div>
     </section>
 
     <!--===== EDUCATION =====-->
@@ -164,7 +180,7 @@
                 <li><strong>Generative AI:</strong> Acquired deep theoretical and practical skills in generative models, applying them in a hands-on project.</li>
                 <li><strong>AI Project (Neuromorphic AI):</strong> Executed an intensive R&D project focused on Neuromorphic AI and Spiking Neural Networks (SNNs).</li>
                 <li><strong>Predictive Maintenance:</strong> Developed predictive models using Python to forecast system failures and optimize schedules.</li>
-                <li><strong>Data Analysis &amp; ML:</strong> Engineered a complete machine learning project ("AIHealth Guard") for early disease prediction.</li>
+                <li><strong>Data Analysis &amp; ML:</strong> Engineered a complete machine learning project ("AI Health Guard") for early disease prediction.</li>
               </ul>
             </div>
           </div>
@@ -416,6 +432,123 @@
       </div>
     </section>
 
+      <!--===== RESEARCH =====-->
+<section class="research section" id="research">
+  <h2 class="section__title">Research</h2>
+  <span class="section__subtitle">Publications & Research Papers</span>
+
+  <div class="projects__container container">
+
+    <!-- Paper 1 -->
+    <div class="project__item">
+      <h3 class="project__title">
+        Towards Neuromorphic Efficiency: A Comparative Benchmarking of Spiking Neural Networks and Artificial Neural Networks
+      </h3>
+
+      <div class="project__tech">
+        <span>Neuromorphic Computing</span>
+        <span>Spiking Neural Networks</span>
+        <span>Computer Vision</span>
+      </div>
+
+      <p class="project__description">
+        This paper presents a controlled benchmark comparing Spiking Neural Networks (SNNs)
+        and conventional Artificial Neural Networks (ANNs) using the event-based N-MNIST
+        dataset. The proposed SNN achieved higher classification accuracy while reducing
+        theoretical inference energy by nearly 60%, demonstrating the potential of
+        neuromorphic computing for efficient edge AI applications.
+      </p>
+
+      <div class="home__buttons">
+        <a href="assets/papers/Aryan_Gautam_Jadhav_Neuromorphic_SNN_Benchmark.pdf"
+           target="_blank"
+           class="button">
+           PDF <i class='bx bx-file'></i>
+        </a>
+
+        <a href="https://doi.org/10.13140/RG.2.2.32170.58569"
+           target="_blank"
+           class="button button--ghost">
+           DOI <i class='bx bx-link-external'></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Paper 2 -->
+    <div class="project__item">
+      <h3 class="project__title">
+        Opening the Black Box: Explainability in AI
+      </h3>
+
+      <div class="project__tech">
+        <span>Explainable AI</span>
+        <span>XAI</span>
+        <span>Responsible AI</span>
+      </div>
+
+      <p class="project__description">
+        This survey explores Explainable Artificial Intelligence (XAI), discussing
+        interpretable models, post-hoc explanation methods such as LIME and SHAP,
+        and the growing importance of transparency in healthcare, finance,
+        robotics, and safety-critical AI systems.
+      </p>
+
+      <div class="home__buttons">
+        <a href="assets/papers/Aryan_Gautam_Jadhav_Explainable_AI_survey.pdf"
+           target="_blank"
+           class="button">
+           PDF <i class='bx bx-file'></i>
+        </a>
+
+        <a href="https://doi.org/10.13140/RG.2.2.22104.25604"
+           target="_blank"
+           class="button button--ghost">
+           DOI <i class='bx bx-link-external'></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Paper 3 -->
+    <div class="project__item">
+      <h3 class="project__title">
+        Low-Code/No-Code Under the Microscope: Addressing the Hidden Challenges of Integration and Customization
+      </h3>
+
+      <div class="project__tech">
+        <span>Software Engineering</span>
+        <span>Low-Code</span>
+        <span>Enterprise Systems</span>
+      </div>
+
+      <p class="project__description">
+        This paper critically evaluates modern low-code/no-code platforms by examining
+        customization, interoperability, enterprise integration, and vendor lock-in.
+        It proposes hybrid development strategies and architectural improvements to
+        enable scalable and secure enterprise software development.
+      </p>
+
+      <div class="home__buttons">
+        <a href="assets/papers/Aryan_Gautam_Jadhav_Low_Code_No_Code_Review.pdf"
+           target="_blank"
+           class="button">
+           PDF <i class='bx bx-file'></i>
+        </a>
+
+        <a href="https://doi.org/10.13140/RG.2.2.35526.02887"
+           target="_blank"
+           class="button button--ghost">
+           DOI <i class='bx bx-link-external'></i>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+
+
     <section class="patents section" id="patents">
       <h2 class="section__title">Patents</h2>
       <span class="section__subtitle">Intellectual Property</span>
@@ -551,10 +684,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
   <script src="https://unpkg.com/scrollreveal"></script>
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-  
+
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script src="assets/js/main.js"></script>
 

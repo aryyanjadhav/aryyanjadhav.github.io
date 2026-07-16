@@ -109,157 +109,6 @@ document.querySelectorAll('.project__card').forEach(card => {
   });
 });
 
-/* =============================
-   THREE.JS — QUANTUM AI CORE
-============================= */
-(function initThreeJS() {
-  const container = document.getElementById('home-canvas');
-  if (!container || typeof THREE === 'undefined') return;
-
-  const W = container.clientWidth || 400;
-  const H = container.clientHeight || 350;
-
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(60, W / H, 0.1, 100);
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-
-  renderer.setSize(W, H);
-  renderer.setPixelRatio(window.devicePixelRatio);
-  container.appendChild(renderer.domElement);
-
-  // Group to hold the core structure
-  const coreGroup = new THREE.Group();
-  scene.add(coreGroup);
-
-  /* ---- Inner Matrix (The Brain) ---- */
-  const innerGeo = new THREE.IcosahedronGeometry(1, 1);
-  const innerMat = new THREE.MeshStandardMaterial({
-    color: 0x0077ff,
-    wireframe: true,
-    transparent: true,
-    opacity: 0.8
-  });
-  const innerCore = new THREE.Mesh(innerGeo, innerMat);
-  coreGroup.add(innerCore);
-
-  /* ---- Orbital Data Rings ---- */
-  const rings = [];
-  const ringColors = [0x00aaff, 0x0055ff, 0x0033aa];
-  
-  for(let i = 0; i < 3; i++) {
-    const ringGeo = new THREE.TorusGeometry(1.4 + (i * 0.3), 0.02, 16, 100);
-    const ringMat = new THREE.MeshStandardMaterial({
-      color: ringColors[i],
-      emissive: ringColors[i],
-      emissiveIntensity: 0.6
-    });
-    const ring = new THREE.Mesh(ringGeo, ringMat);
-    // Offset their starting rotations so they intersect beautifully
-    ring.rotation.x = Math.random() * Math.PI;
-    ring.rotation.y = Math.random() * Math.PI;
-    coreGroup.add(ring);
-    rings.push(ring);
-  }
-
-  /* ---- Ambient Particle Cloud (Data Points) ---- */
-  const particleCount = 150;
-  const pGeo = new THREE.BufferGeometry();
-  const pPos = new Float32Array(particleCount * 3);
-  const pVel = [];
-
-  for(let i = 0; i < particleCount; i++) {
-    pPos[i * 3]     = (Math.random() - 0.5) * 8; // X
-    pPos[i * 3 + 1] = (Math.random() - 0.5) * 8; // Y
-    pPos[i * 3 + 2] = (Math.random() - 0.5) * 8; // Z
-    
-    pVel.push({
-      x: (Math.random() - 0.5) * 0.01,
-      y: (Math.random() - 0.5) * 0.01,
-      z: (Math.random() - 0.5) * 0.01
-    });
-  }
-  
-  pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
-  const pMat = new THREE.PointsMaterial({
-    color: 0x66ccff,
-    size: 0.05,
-    transparent: true,
-    opacity: 0.7
-  });
-  const particles = new THREE.Points(pGeo, pMat);
-  scene.add(particles);
-
-  /* ---- Lighting ---- */
-  scene.add(new THREE.AmbientLight(0xffffff, 0.4));
-  
-  const light1 = new THREE.PointLight(0x0099ff, 2, 20);
-  light1.position.set(5, 5, 5);
-  scene.add(light1);
-
-  const light2 = new THREE.PointLight(0x00ffff, 1, 20);
-  light2.position.set(-5, -3, -5);
-  scene.add(light2);
-
-  camera.position.z = 5;
-
-  /* ---- Orbit Controls ---- */
-  const controls = new THREE.OrbitControls(camera, renderer.domElement);
-  controls.enableDamping = true; 
-  controls.dampingFactor = 0.05;
-  controls.enableZoom = false; 
-  controls.autoRotate = false; // We will handle rotation manually for more complex movement
-
-  /* ---- Animation loop ---- */
-  let frame = 0;
-  function animate() {
-    requestAnimationFrame(animate);
-    frame++;
-
-    // 1. Rotate the inner core matrix
-    innerCore.rotation.y += 0.005;
-    innerCore.rotation.x += 0.002;
-
-    // 2. Pulse the inner core
-    const pulse = 1 + Math.sin(frame * 0.05) * 0.1;
-    innerCore.scale.setScalar(pulse);
-
-    // 3. Rotate the data rings on different axes
-    rings[0].rotation.x += 0.01;
-    rings[1].rotation.y -= 0.008;
-    rings[2].rotation.z += 0.012;
-
-    // 4. Slowly rotate the entire core group
-    coreGroup.rotation.y += 0.002;
-    coreGroup.rotation.z += 0.001;
-
-    // 5. Float the ambient data particles
-    const positions = pGeo.attributes.position.array;
-    for (let i = 0; i < particleCount; i++) {
-      positions[i * 3]     += pVel[i].x;
-      positions[i * 3 + 1] += pVel[i].y;
-      positions[i * 3 + 2] += pVel[i].z;
-
-      // Keep them enclosed in an invisible bounding box
-      if (Math.abs(positions[i * 3]) > 4) pVel[i].x *= -1;
-      if (Math.abs(positions[i * 3 + 1]) > 4) pVel[i].y *= -1;
-      if (Math.abs(positions[i * 3 + 2]) > 4) pVel[i].z *= -1;
-    }
-    pGeo.attributes.position.needsUpdate = true;
-
-    controls.update();
-    renderer.render(scene, camera);
-  }
-  animate();
-
-  /* ---- Responsive resize ---- */
-  window.addEventListener('resize', () => {
-    const newW = container.clientWidth || 400;
-    const newH = container.clientHeight || 350;
-    camera.aspect = newW / newH;
-    camera.updateProjectionMatrix();
-    renderer.setSize(newW, newH);
-  });
-})();
 
 /* =============================
    SCROLL REVEAL ANIMATIONS
@@ -273,7 +122,7 @@ const sr = ScrollReveal({
 });
 
 sr.reveal('.home__data',             { origin: 'left' });
-sr.reveal('.home__3d',               { origin: 'right', delay: 200 });
+sr.reveal('.home__img',               { origin: 'right', delay: 200 });
 sr.reveal('.section__title');
 sr.reveal('.section__subtitle',      { delay: 100 });
 sr.reveal('.about__img',             { origin: 'left' });
@@ -313,3 +162,156 @@ contactForm?.addEventListener('submit', (e) => {
       contactMessage.style.color = 'red';
     });
 });
+/* =============================
+   ADDED: PLAYABLE AI NEURAL ARTWORK
+============================= */
+const canvas = document.getElementById('ai-neural-canvas');
+if (canvas) {
+  const ctx = canvas.getContext('2d');
+  const homeSection = document.getElementById('home');
+
+  let width, height;
+  let particles = [];
+  // Slightly reduced radius so it doesn't grab the whole screen
+  let mouse = { x: -1000, y: -1000, radius: 180 };
+
+  function resizeCanvas() {
+    width = homeSection.offsetWidth;
+    height = homeSection.offsetHeight;
+    canvas.width = width;
+    canvas.height = height;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  class Neuron {
+    constructor() {
+      this.x = Math.random() * width;
+      this.y = Math.random() * height;
+      // Made base movement slightly slower for a calmer feel
+      this.vx = (Math.random() - 0.5) * 1.2;
+      this.vy = (Math.random() - 0.5) * 1.2;
+      this.baseRadius = Math.random() * 2 + 1;
+      this.radius = this.baseRadius;
+    }
+
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+
+      // Bounce off edges
+      if (this.x < 0 || this.x > width) this.vx *= -1;
+      if (this.y < 0 || this.y > height) this.vy *= -1;
+
+      // Mouse/Touch Interaction Physics
+      let dx = mouse.x - this.x;
+      let dy = mouse.y - this.y;
+      let dist = Math.sqrt(dx * dx + dy * dy);
+
+      if (dist < mouse.radius) {
+        // Create an equilibrium zone: pull from afar, push away if too close
+        if (dist > 80) {
+            // Outer zone: VERY gentle attraction + swirl
+            this.x += dx * 0.002;
+            this.y += dy * 0.002;
+            this.x -= dy * 0.0015; // Swirl
+            this.y += dx * 0.0015; // Swirl
+        } else {
+            // Inner zone (Forcefield): Gently push away to prevent dense clumping
+            this.x -= dx * 0.004;
+            this.y -= dy * 0.004;
+        }
+      }
+    }
+
+    draw(isDark) {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fillStyle = isDark ? 'rgba(255, 255, 255, 0.7)' : 'rgba(79, 156, 249, 0.7)';
+      ctx.fill();
+    }
+  }
+
+  function initNeurons() {
+    particles = [];
+    // Slightly reduced total node count for a cleaner look
+    let numNeurons = (width * height) / 13000;
+    for (let i = 0; i < numNeurons; i++) {
+      particles.push(new Neuron());
+    }
+  }
+  initNeurons();
+
+  function animateNetwork() {
+    requestAnimationFrame(animateNetwork);
+    ctx.clearRect(0, 0, width, height);
+
+    const isDark = document.body.classList.contains('dark-theme');
+    const rgbLine = isDark ? '255, 255, 255' : '79, 156, 249';
+    const rgbActive = '175, 82, 222'; // Purple accent
+
+    particles.forEach((p, index) => {
+      p.update();
+      p.draw(isDark);
+
+      for (let j = index; j < particles.length; j++) {
+        let p2 = particles[j];
+        let dx = p.x - p2.x;
+        let dy = p.y - p2.y;
+        let dist = Math.sqrt(dx * dx + dy * dy);
+
+        // Reduced connection distance slightly to prevent line spaghetti
+        if (dist < 110) {
+          ctx.beginPath();
+          let opacity = 1 - (dist / 110);
+
+          let mDist1 = Math.sqrt(Math.pow(mouse.x - p.x, 2) + Math.pow(mouse.y - p.y, 2));
+          let mDist2 = Math.sqrt(Math.pow(mouse.x - p2.x, 2) + Math.pow(mouse.y - p2.y, 2));
+
+          if (mDist1 < mouse.radius || mDist2 < mouse.radius) {
+              ctx.strokeStyle = `rgba(${rgbActive}, ${opacity + 0.2})`;
+              ctx.lineWidth = 1.2;
+          } else {
+              ctx.strokeStyle = `rgba(${rgbLine}, ${opacity * 0.3})`;
+              ctx.lineWidth = 0.8;
+          }
+
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.stroke();
+        }
+      }
+    });
+  }
+  animateNetwork();
+
+  // Mouse Events
+  homeSection.addEventListener('mousemove', (e) => {
+    let rect = homeSection.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left;
+    mouse.y = e.clientY - rect.top;
+  });
+
+  homeSection.addEventListener('mouseleave', () => {
+    mouse.x = -1000;
+    mouse.y = -1000;
+  });
+
+  // Touch Events (Mobile)
+  homeSection.addEventListener('touchstart', (e) => {
+    let rect = homeSection.getBoundingClientRect();
+    mouse.x = e.touches[0].clientX - rect.left;
+    mouse.y = e.touches[0].clientY - rect.top;
+  }, {passive: true});
+
+  homeSection.addEventListener('touchmove', (e) => {
+    let rect = homeSection.getBoundingClientRect();
+    mouse.x = e.touches[0].clientX - rect.left;
+    mouse.y = e.touches[0].clientY - rect.top;
+  }, {passive: true});
+
+  window.addEventListener('touchend', () => {
+    mouse.x = -1000;
+    mouse.y = -1000;
+  });
+}

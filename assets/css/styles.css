@@ -12,8 +12,8 @@
   --border-color: hsl(207, 4%, 88%);
 
   /* Font - Strictly Apple SF System Stack */
-  --body-font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  
+  --body-font: -apple-system, "SF Pro Display", "SF Pro Text";
+
   /* Font Sizes */
   --biggest-font-size: 2rem;
   --h1-font-size: 1.5rem;
@@ -140,7 +140,7 @@ img { max-width: 100%; display: block; }
   -webkit-backdrop-filter: blur(16px);
   z-index: var(--z-fixed);
   border-bottom: 1px solid var(--border-color);
-  transition: background-color .4s;  
+  transition: background-color .4s;
 }
 
 /* Add this right here to handle Light Mode transparency */
@@ -201,10 +201,21 @@ body:not(.dark-theme) .header {
    HOME
 =========================== */
 .home {
+  position: relative;
+  overflow: hidden;
   padding-top: calc(var(--header-height) + 3.5rem);
   padding-bottom: 3rem;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
 }
-.home__container { row-gap: 3rem; }
+
+.home__container {
+  row-gap: 3rem;
+  position: relative;
+  z-index: 1;
+}
+
 .home__greeting {
   font-size: var(--small-font-size);
   color: var(--first-color);
@@ -213,71 +224,87 @@ body:not(.dark-theme) .header {
   text-transform: uppercase;
   margin-bottom: .5rem;
 }
+
 .home__name {
   font-size: var(--biggest-font-size);
   font-weight: var(--font-bold);
   margin-bottom: .75rem;
   line-height: 1.1;
 }
+
 .home__title {
   font-size: var(--h3-font-size);
   color: var(--text-color);
   font-weight: var(--font-medium);
   margin-bottom: 1rem;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid var(--first-color);
+  animation: typing 2.5s steps(40, end), blink-caret .75s step-end infinite;
 }
-.home__description { margin-bottom: 2rem; line-height: 1.8; }
+
+.home__description {
+  max-width: 650px;
+  line-height: 1.9;
+  margin-bottom: 3rem;
+}
+
 .home__buttons {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  margin-bottom: 2rem;
+  margin-top: 0;
+  margin-bottom: 2.5rem;
 }
-.home__social { display: flex; column-gap: 1.25rem; }
+
+.home__social {
+  display: flex;
+  column-gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
 .home__social-link {
   font-size: 1.5rem;
   color: var(--text-color);
   transition: color .3s, transform .3s;
+  display: inline-block;
 }
+
 .home__social-link:hover {
   color: var(--first-color);
-  transform: translateY(-4px);
+  transform: translateY(-4px) scale(1.15) !important;
 }
-.home__3d {
-  width: 100%;
-  height: 300px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+
+.home__profile {
+  width: 360px;
+  max-width: 100%;
+  border-radius: 24px;
+  object-fit: cover;
+  box-shadow: 0 15px 40px rgba(0,0,0,.18);
 }
-.home__3d canvas { border-radius: 1rem; }
 
 /* ===========================
-   ABOUT
+   ABOUT (Stat Tiles & Badges)
 =========================== */
 .about__container { row-gap: 2.5rem; }
-.about__img {
-  width: 220px;
-  border-radius: 1rem;
-  justify-self: center;
-  box-shadow: 0 8px 32px rgba(0,0,0,.12);
-}
-.about__description {
-  line-height: 1.8;
-  margin-bottom: 1.5rem;
-}
+
 .about__info {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
 }
+
 .about__info-item { text-align: center; }
+
 .about__info-title {
   display: block;
   font-size: 1.5rem;
   font-weight: var(--font-bold);
   color: var(--first-color);
 }
+
 .about__info-name {
   font-size: var(--small-font-size);
   line-height: 1.4;
@@ -287,20 +314,19 @@ body:not(.dark-theme) .header {
 .about__languages {
   display: flex;
   flex-wrap: wrap;
-  gap: .5rem;
-  margin-bottom: 1.5rem;
+  gap: 0.75rem;
+  margin-bottom: 2.5rem;
 }
 
-/* Adds breathing room above and below the blue stat numbers */
 .about__title {
-  margin-top: 0.75rem;    /* Space between the icon and the number */
-  margin-bottom: 0.5rem;  /* Space between the number and the subtitle */
+  margin-top: 0.75rem;
+  margin-bottom: 0.5rem;
+  color: var(--first-color);
 }
 
-/* Optional: Make the icons a tiny bit bigger so they anchor the block better */
 .about__icon {
-  font-size: 1.5rem; 
-  color: var(--title-color); /* Keeps them matching your premium theme */
+  font-size: 1.5rem;
+  color: var(--title-color);
 }
 
 .lang__badge {
@@ -361,12 +387,7 @@ body:not(.dark-theme) .header {
 }
 
 /* Modules Box */
-.education__modules {
-  background-color: var(--body-color);
-  padding: 1.25rem;
-  border-radius: 0.75rem;
-  border: 1px solid var(--border-color);
-}
+.education__modules {margin-top: 1rem;}
 
 .education__modules-list {
   display: flex;
@@ -562,13 +583,13 @@ body.dark-theme .experience__badge {
 /* ===========================
    PROJECTS & PATENTS (Box Layout)
 =========================== */
-.projects__container { 
+.projects__container {
   display: flex;
   flex-direction: column;
   row-gap: 2.5rem; /* Spacing between the boxes */
   max-width: 900px; /* Matches the width of your experience section */
   margin: 0 auto;
-  padding-bottom: 3rem; 
+  padding-bottom: 3rem;
 }
 
 /* This creates the exact box style from your screenshot */
@@ -586,7 +607,7 @@ body.dark-theme .experience__badge {
 /* On hover, the border turns blue (like the top box in your image) and lifts up */
 .project__item:hover,
 .project__card:hover {
-  border-color: var(--first-color); 
+  border-color: var(--first-color);
   transform: translateY(-4px);
   box-shadow: 0 8px 32px rgba(0, 119, 255, 0.1);
 }
@@ -649,6 +670,7 @@ body.dark-theme .experience__badge {
   color: var(--title-color);
   font-weight: var(--font-semi-bold);
 }
+
 /* ===========================
    AWARDS
 =========================== */
@@ -771,13 +793,12 @@ textarea.contact__input {
     column-gap: 4rem;
     align-items: flex-start;
   }
-  
+
   .contact__form-group {
     grid-template-columns: repeat(2, 1fr);
     column-gap: 1.5rem;
   }
 }
-
 
 /* ===========================
    FOOTER
@@ -863,8 +884,7 @@ textarea.contact__input {
   .nav__close, .nav__toggle { display: none; }
 
   /* Two-column layouts */
-  .home__container    { grid-template-columns: 1fr 1fr; align-items: center; }
-  .home__3d           { height: 380px; }
+  .home__container{grid-template-columns:1.15fr .85fr; align-items:center; column-gap:5rem;}
   .about__container   { grid-template-columns: 1fr 1fr; align-items: start; }
   .skills__container  { grid-template-columns: 1fr 1fr; }
   .contact__container { grid-template-columns: 1fr 1.5fr; }
@@ -966,14 +986,13 @@ textarea.contact__input {
   -webkit-text-fill-color: var(--first-color);
 }
 
-
 /* ===========================
    MACOS DOCK HOVER EFFECTS
 =========================== */
 /* 1. Apply the bouncy transition to all interactable elements */
-.nav__link, 
-.button, 
-.home__social-link, 
+.nav__link,
+.button,
+.home__social-link,
 .footer__social-link,
 .nav__logo {
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.3s !important;
@@ -981,8 +1000,8 @@ textarea.contact__input {
 }
 
 /* 2. Scale up and lift on hover */
-.nav__link:hover, 
-.home__social-link:hover, 
+.nav__link:hover,
+.home__social-link:hover,
 .footer__social-link:hover,
 .nav__logo:hover {
   transform: translateY(-4px) scale(1.15) !important;
@@ -991,24 +1010,6 @@ textarea.contact__input {
 /* Buttons need slightly less scale so they don't look massive */
 .button:hover {
   transform: translateY(-4px) scale(1.05) !important;
-}
-
-/* Terminal Typing Effect */
-.home__title {
-  display: inline-block;
-  overflow: hidden;
-  white-space: nowrap;
-  border-right: 2px solid var(--first-color); /* The cursor */
-  animation: typing 2.5s steps(40, end), blink-caret .75s step-end infinite;
-}
-
-@keyframes typing {
-  from { width: 0 }
-  to { width: 27ch }
-}
-@keyframes blink-caret {
-  from, to { border-color: transparent }
-  50% { border-color: var(--first-color) }
 }
 
 /* Desktop Layout: FORCE Cards on left, Form on right */
@@ -1020,7 +1021,7 @@ textarea.contact__input {
     column-gap: 4rem !important;
     align-items: flex-start !important;
   }
-  
+
   section.contact .contact__form-group {
     display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
@@ -1028,6 +1029,29 @@ textarea.contact__input {
   }
 }
 
-.about__title {
-  color: var(--first-color);
+/* ===========================
+   AI PLAYABLE ARTWORK
+=========================== */
+.ai-neural-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none; /* Allows clicks to pass through to your buttons */
+  opacity: 0.8;
+}
+
+/* ===========================
+   ANIMATION KEYFRAMES
+=========================== */
+@keyframes typing {
+  from { width: 0 }
+  to { width: 27ch }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: var(--first-color) }
 }
