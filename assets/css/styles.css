@@ -276,6 +276,16 @@ body:not(.dark-theme) .header {
   transform: translateY(-4px) scale(1.15) !important;
 }
 
+.home__img {
+  position: relative;
+  width: 420px;
+  height: 420px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto; /* Ensures it stays centered */
+}
+
 .home__profile {
   width: 360px;
   max-width: 100%;
